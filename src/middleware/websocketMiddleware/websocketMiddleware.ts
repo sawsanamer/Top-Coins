@@ -5,16 +5,18 @@ import { RootState } from '../../store/store';
 import { UnknownAction } from '@reduxjs/toolkit';
 import { PRODUCT_IDS, UPDATE_FREQUENCY_MS } from './consts';
 import { ActionTypes } from './actions';
+import throttle from "lodash.throttle";
 
-
- 
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 const websocketMiddleware: Middleware<{}, RootState> = ({ dispatch }) => {
   let socket: WebSocket | null = null;
   let coins= initialCoinState;
-  let intervalId: NodeJS.Timeout | null = null;
   let allCoinsUpdated = false;
+
+  const throttledDispatch = throttle(() => 
+    dispatch(updateCoins(coins))
+, UPDATE_FREQUENCY_MS);
 
   const initializeWebSocket = () => {
     socket = new WebSocket(process.env.REACT_APP_COINBASE_URL || "");
@@ -48,34 +50,28 @@ const websocketMiddleware: Middleware<{}, RootState> = ({ dispatch }) => {
           [coinCode]: [price, priceChangePercentage],
         };
 
-        //check if all coins have been updated and then update the store with the latest prices
+        //check if all coins recieved a real time value
         if (!allCoinsUpdated) {
-          allCoinsUpdated = Object.values(coins).every(([price, priceChange]) => price !== "" && priceChange !== "");          
-          if (allCoinsUpdated) {
-            dispatch(updateCoins(coins));
-          }
-        }          
+          allCoinsUpdated = Object.values(coins).every(([price, priceChange]) => price !== "" && priceChange !== "");
       }
+      
+      //once all coin values are filled, dispatch the coins list, and throttle subsequent updates 
+        if (allCoinsUpdated) {
+          throttledDispatch();
+       }
+    
+      }
+
     };
 
     socket.onerror = () => {
       dispatch(updateErrorState(true));
     };
 
-  
-    //update the store with the latest prices every 1 second so that UI isn't re rendered for every price update since it can be very frequent
-    if (!intervalId) {
-      intervalId = setInterval(() => {
-        if (allCoinsUpdated) {
-          dispatch(updateCoins(coins));
-
-        }
-      }, UPDATE_FREQUENCY_MS);
-    }
   };
 
   const closeWebSocket = () => {
-    //unsubscribe from the ticker channel and close the socket and clear the interval
+    //unsubscribe from the ticker channel and close the socket
     if (socket) {
       socket?.send(JSON.stringify({
         type: "unsubscribe",
@@ -84,9 +80,7 @@ const websocketMiddleware: Middleware<{}, RootState> = ({ dispatch }) => {
       }));
       socket.close();
     }
-    if (intervalId) {
-      clearInterval(intervalId);
-    }
+ 
 
   }
 
