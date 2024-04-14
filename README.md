@@ -46,7 +46,7 @@ I opted for this package to create interactive charts showcasing historical pric
 This was chosen to manage routes and navigation within the app. While I considered Next.js, I found that react-router-dom suited the project's needs without adding unnecessary complexity. If the project were to expand significantly in the future, I would consider Next.js for its advanced capabilities, but for now, react-router-dom was the choice.
 
 #### 14-04 Small Update
-Update readme file, and set up throttling of websocket updates. 
+Update readme file, fix pre-commit hook, and set up throttling of websocket updates. 
 
 ## How to run the project - by the Create React App team:
 
