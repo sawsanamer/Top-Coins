@@ -13,7 +13,7 @@ describe("LoadingChart", () => {
     const circularProgress = screen.getByRole("progressbar");
     expect(circularProgress).toHaveAttribute(
       "style",
-      "width: 250px; height: 250px;"
+      "width: 250px; height: 250px;",
     );
   });
 });

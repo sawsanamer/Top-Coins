@@ -1,28 +1,28 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from './store';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "./store";
 
 export type Coin = {
   [key: string]: [string, string];
-}
+};
 
 export type CoinsState = {
   data: Coin;
   error: boolean;
-}
-
-export const initialCoinState: Coin = {
-  "BTC": ["", ""],
-  "ETH": ["", ""],
-  "USDT": ["", ""],
 };
 
- const initialState: CoinsState = {
+export const initialCoinState: Coin = {
+  BTC: ["", ""],
+  ETH: ["", ""],
+  USDT: ["", ""],
+};
+
+const initialState: CoinsState = {
   data: initialCoinState,
   error: false,
 };
 
 export const coinsSlice = createSlice({
-  name: 'coins',
+  name: "coins",
   initialState,
   reducers: {
     updateCoins: (state, action: PayloadAction<Coin>) => {
@@ -34,7 +34,6 @@ export const coinsSlice = createSlice({
     },
   },
 });
-
 
 export const { updateCoins, updateErrorState } = coinsSlice.actions;
 

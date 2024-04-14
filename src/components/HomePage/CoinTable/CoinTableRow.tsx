@@ -19,7 +19,7 @@ const CoinTableRow = ({ code, price, priceChange }: Props) => {
   }, [navigate, code]);
   const { initialPrice } = useInititalCoinPrice(
     codeToName[code as keyof typeof codeToName],
-    price !== ""
+    price !== "",
   );
 
   return (

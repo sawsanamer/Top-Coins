@@ -11,7 +11,7 @@ describe("CoinTableHeader", () => {
             <CoinTableHeader />
           </TableHead>
         </Table>
-      </TableContainer>
+      </TableContainer>,
     );
 
     expect(screen.getByText("Asset")).toBeInTheDocument();
@@ -27,7 +27,7 @@ describe("CoinTableHeader", () => {
             <CoinTableHeader />
           </TableHead>
         </Table>
-      </TableContainer>
+      </TableContainer>,
     );
 
     const cells = screen.getAllByRole("columnheader");

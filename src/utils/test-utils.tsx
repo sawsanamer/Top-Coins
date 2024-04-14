@@ -18,7 +18,7 @@ export function renderWithProviders(
       preloadedState: initialState,
     }),
     ...renderOptions
-  }: Options = {}
+  }: Options = {},
 ): RenderResult & { store: EnhancedStore } {
   function Wrapper({ children }: { children?: React.ReactNode }) {
     return <Provider store={store}>{children}</Provider>;

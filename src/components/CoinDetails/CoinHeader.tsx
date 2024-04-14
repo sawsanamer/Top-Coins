@@ -13,7 +13,7 @@ const CoinHeader = ({ coinCode }: Props) => {
   const isError = useSelector(selectError);
   const { initialPrice } = useInititalCoinPrice(
     codeToName[coinCode as keyof typeof codeToName],
-    price !== ""
+    price !== "",
   );
 
   //if websocket price is not available yet, display the initial price fetched from the API

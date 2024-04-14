@@ -6,10 +6,10 @@ import { chartDaysConfig } from "../../../config/chartDaysConfig";
 describe("ChartDays", () => {
   it("renders the correct number of DayItems", () => {
     const { queryAllByTestId } = render(
-      <ChartDays days={1} onChange={() => {}} />
+      <ChartDays days={1} onChange={() => {}} />,
     );
     const dayItems = queryAllByTestId((testId) =>
-      testId.startsWith("day-item-")
+      testId.startsWith("day-item-"),
     );
 
     expect(dayItems.length).toBe(chartDaysConfig.length);
@@ -18,7 +18,7 @@ describe("ChartDays", () => {
   it("calls onChange with the correct value when a DayItem is clicked", () => {
     const mockOnChange = jest.fn();
     const { getByTestId } = render(
-      <ChartDays days={1} onChange={mockOnChange} />
+      <ChartDays days={1} onChange={mockOnChange} />,
     );
     const button = getByTestId(`day-item-${chartDaysConfig[0].label}`);
     fireEvent.click(button);

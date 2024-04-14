@@ -48,7 +48,7 @@ describe("useHistoricalChart", () => {
 
     renderHook(() => useHistoricalChart(undefined, 1));
     expect(useQuery).toHaveBeenCalledWith(
-      expect.objectContaining({ enabled: false })
+      expect.objectContaining({ enabled: false }),
     );
   });
 });
