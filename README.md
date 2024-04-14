@@ -4,38 +4,37 @@
 ### Screenshots
 
 #### Home Page
+<img width="1512" alt="top" src="https://github.com/sawsanamer/Top-Coins/assets/71269773/2054082e-c69b-4213-a1a1-a393b27b5c4f">
 
-<img width="1512" alt="top" src="https://github.com/sawsanamer/crypto/assets/71269773/85fccbfa-5184-4c71-940b-b5f90b730ada">
+#### Coin Details Page (Appears when you click on any coin in Home Page - BTC 1 week)
 
-#### Coin Details Page (Appears when you click on any coin in Home Page - BTC 1 day)
-
-<img width="1457" alt="Coin details page 2" src="https://github.com/sawsanamer/crypto/assets/71269773/a1692f01-5618-421e-875e-19bbffe28836">
+<img width="1457" alt="Coin details page 2" src="https://github.com/sawsanamer/Top-Coins/assets/71269773/272c0237-b8da-46e2-9593-e24b368f1a52">
 
 #### Coin Details Page (ETH 1 year)
-
-<img width="1501" alt="Screenshot 2024-04-05 at 9 59 12 PM" src="https://github.com/sawsanamer/crypto/assets/71269773/15785a86-de05-4651-84b2-18879dd2830e">
+<img width="1465" alt="Screenshot 2024-04-14 at 9 07 28 PM" src="https://github.com/sawsanamer/Top-Coins/assets/71269773/4dfdf3cb-5753-41b3-9f5b-7fbde44dd3fb">
 
 ### App Architecture
+![top-coins-archi](https://github.com/sawsanamer/Top-Coins/assets/71269773/1c9c72da-0fbb-4792-99a6-f7a43802d3ad)
 
-![top-coins-components-archit](https://github.com/sawsanamer/crypto/assets/71269773/a1d822c2-5c53-42f0-a1de-f5d417a1efe0)
 ### Views
-
-![views](https://github.com/sawsanamer/crypto/assets/71269773/d7e92a3b-8abf-4466-a855-63d420531429)
+![views](https://github.com/sawsanamer/Top-Coins/assets/71269773/25485e50-fe5e-403e-9147-52a81dc7fb9c)
 
 ## Overview of how it works
-The application's controller initiates a connection request to the WebSocket middleware, establishing and configuring the WebSocket along with its event listeners. Every second, the controller dispatches updates containing the latest coin values. Components such as CoinHeader and CoinTable dynamically re-render in response to these updates, ensuring real-time display accuracy. CoinHeader leverages server state management via useQuery to maintain the initialPrice, showcasing it until the WebSocket transmits the first value. Similarly, CoinTableRow utilizes react-query's initialPrice state. Additionally, the application executes an API call to retrieve historical chart data and i'll explain further in the following sections. 
+The application's controller sends a connection request to the WebSocket middleware, hence, establishing and configuring the WebSocket along with its event listeners. The middleware dispatches updates containing the latest coin values. Components such as CoinHeader and CoinTable re-render in response to these updates, ensuring real-time display accuracy.
+
+CoinHeader leverages server state management via useQuery (hook provided by react-query's library) to maintain the initialPrice, showcasing it until the WebSocket dispatches the first value. Similarly, CoinTableRow utilizes react-query's initialPrice state. Additionally, the application executes an API call to retrieve historical chart data using useQuery as well. Once the controller unmounts, it sends a request to the middleware to disconnect, closing up the WebSocket. 
 
 
 ## Packages Used
 
 ### 1. React-Query
-I chose this for handling server-side state caching and management. For example, when a user visits the CoinDetailsPage, they'll initially see a loading indicator followed by a chart displaying their selected coin's one-day history. If they switch to another chart and then return to the one-day chart, there won't be a loading indicator because the data is cached. Additionally, I used it to access the initialPrice state across multiple components, making data sharing smoother.
+I chose this for handling server-side state caching and management. For example, when a user visits the CoinDetailsPage, they'll initially see a loading indicator followed by a chart displaying their selected coin's one-day history. If they switch to another chart and then return to the one-day chart, there won't be a loading indicator because the data is cached. Additionally, I used it to access the initialPrice state across multiple components, making server state sharing smoother.
 
 ### 2. MUI (Material-UI)
-This was a quick pick to ensure a consistent design throughout the app. It allowed me to set up visually appealing and coherent user interfaces without spending excessive time on design elements.
+This was a quick pick to ensure a consistent design throughout the app. It allowed me to set up visually appealing user interfaces without spending excessive time on design.
 
 ### 3. Redux-Toolkit
-I integrated this for two main reasons. Firstly, it helped me set up middleware for handling the WebSocket connection, which is crucial for real-time data updates. Secondly, it provided a centralized Redux store, reducing the need for prop drilling and making state management more organized. Another reason for choosing redux-toolkit is, if the requirements change, and the app grows it will always be a bottle neck to share state between siblings, so for example it creates confusion on where to keep context, hence why redux seems like a better option.
+I integrated Redux-Toolkit for two main reasons. Firstly, it helped me set up middleware for handling the WebSocket connection, which is crucial for real-time data updates. Secondly, it provided a centralized Redux store, reducing the need for prop drilling and making state management more organized. Another reason for choosing redux-toolkit is, if the requirements change, and the app grows it will always be a bottle neck to share state between siblings, so for example it creates confusion on where to keep context, hence why redux seems like a better option.
 
 ### 4. Eslint, Prettier
 These tools were essential for maintaining code quality and consistency. They helped catch potential bugs and enforce coding standards, ensuring a cleaner and more robust codebase during development.
@@ -46,6 +45,8 @@ I opted for this package to create interactive charts showcasing historical pric
 ### 6. react-router-dom
 This was chosen to manage routes and navigation within the app. While I considered Next.js, I found that react-router-dom suited the project's needs without adding unnecessary complexity. If the project were to expand significantly in the future, I would consider Next.js for its advanced capabilities, but for now, react-router-dom was the choice.
 
+#### 14-04 Small Update
+Update readme file, and set up throttling of websocket updates. 
 
 ## How to run the project - by the Create React App team:
 
